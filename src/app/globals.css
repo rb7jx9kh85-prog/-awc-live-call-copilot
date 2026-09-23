@@ -1,0 +1,118 @@
+@import 'tailwindcss';
+
+/*
+ * Direction artistique : cockpit sombre, premium, sans distraction.
+ * Hiérarchie visuelle imposée par le cahier des charges :
+ *   1. CE QU'IL VIENT DE DIRE
+ *   2. DIS ÇA
+ *   3. ACTION
+ *   4. CONTEXTE
+ */
+
+@theme {
+  --color-ink: #07090c;
+  --color-panel: #0e1218;
+  --color-panel-2: #141a22;
+  --color-line: #1e2733;
+  --color-muted: #7c8899;
+  --color-soft: #b6c2d0;
+  --color-accent: #4ade80;
+  --color-warn: #fbbf24;
+  --color-alert: #f87171;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial,
+    sans-serif;
+}
+
+html,
+body {
+  background: var(--color-ink);
+  color: #e9eef5;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+}
+
+/* Le point LIVE : discret mais visible du coin de l'œil. */
+@keyframes pulse-live {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.live-dot {
+  animation: pulse-live 1.6s ease-in-out infinite;
+}
+
+/* Champs : lisibles à distance, pas de fioriture. */
+.field {
+  width: 100%;
+  background: var(--color-panel-2);
+  border: 1px solid var(--color-line);
+  border-radius: 0.6rem;
+  padding: 0.7rem 0.85rem;
+  color: #e9eef5;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.field:focus {
+  border-color: #2f3d4e;
+}
+
+.field::placeholder {
+  color: #5d6a7b;
+}
+
+.btn {
+  border-radius: 0.6rem;
+  padding: 0.7rem 1.1rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: 1px solid var(--color-line);
+  background: var(--color-panel-2);
+  color: #e9eef5;
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.btn:hover:not(:disabled) {
+  background: #1a222c;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: #e9eef5;
+  color: #07090c;
+  border-color: #e9eef5;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #ffffff;
+}
+
+.card {
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  border-radius: 0.9rem;
+}
+
+.label {
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  font-weight: 600;
+}
