@@ -23,7 +23,15 @@ export default async function Nav({ current }: { current: string }) {
         <Link href="/live" className="text-sm font-bold tracking-[0.2em]">
           AWC LIVE
         </Link>
-        <nav className="flex flex-1 flex-wrap gap-1">
+
+        {/* Sur téléphone : marque + déconnexion sur une ligne, onglets en dessous. */}
+        <form action={signOut} className="order-2 ml-auto sm:order-3">
+          <button type="submit" className="text-xs text-[var(--color-muted)] hover:text-white">
+            Déconnexion
+          </button>
+        </form>
+
+        <nav className="order-3 flex w-full flex-wrap gap-1 sm:order-2 sm:w-auto sm:flex-1">
           {LINKS.map((l) => (
             <Link
               key={l.href}
@@ -38,11 +46,6 @@ export default async function Nav({ current }: { current: string }) {
             </Link>
           ))}
         </nav>
-        <form action={signOut}>
-          <button type="submit" className="text-xs text-[var(--color-muted)] hover:text-white">
-            Déconnexion
-          </button>
-        </form>
       </div>
     </header>
   );
