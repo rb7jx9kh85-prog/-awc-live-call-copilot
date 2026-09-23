@@ -27,10 +27,6 @@ export default function NewProspectPage() {
     'use server';
 
     const supabase = await createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) redirect('/login');
 
     const company = String(formData.get('company') ?? '').trim();
     if (!company) return;
@@ -42,7 +38,7 @@ export default function NewProspectPage() {
     }
     row.company = company;
 
-    const { error } = await supabase.from('prospects').insert({ ...row, owner_id: user.id });
+    const { error } = await supabase.from('prospects').insert(row);
     if (error) throw new Error(error.message);
 
     redirect('/prospects');

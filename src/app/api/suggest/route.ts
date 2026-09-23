@@ -21,14 +21,6 @@ export const dynamic = 'force-dynamic';
 export async function POST(request: Request) {
   const supabase = await createClient();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return NextResponse.json({ error: 'Non authentifié' }, { status: 401 });
-  }
-
   let body: SuggestRequest;
   try {
     body = (await request.json()) as SuggestRequest;
@@ -91,7 +83,6 @@ export async function POST(request: Request) {
   if (body.callId) {
     const knowledgeIds = [...knowledge.rules, ...knowledge.chunks].map((k) => k.id);
     const { error } = await supabase.from('ai_suggestions').insert({
-      owner_id: user.id,
       call_id: body.callId,
       input_text: input,
       stage: suggestion.stage,

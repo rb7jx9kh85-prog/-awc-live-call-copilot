@@ -1,7 +1,5 @@
 import Nav from '@/components/Nav';
 import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
-import { revalidatePath } from 'next/cache';
 
 export const dynamic = 'force-dynamic';
 
@@ -33,19 +31,6 @@ export default async function KnowledgePage() {
       supabase.from('knowledge_chunks').select('id', { count: 'exact', head: true }),
     ]);
 
-  /** Réclame la bibliothèque AWC partagée lors du premier accès. */
-  async function claim() {
-    'use server';
-    const supabase = await createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) redirect('/login');
-
-    await supabase.rpc('claim_awc_knowledge');
-    revalidatePath('/knowledge');
-  }
-
   const documents = docs ?? [];
 
   return (
@@ -54,11 +39,6 @@ export default async function KnowledgePage() {
       <main className="mx-auto max-w-4xl px-4 py-6">
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
           <h1 className="text-lg font-semibold">Méthode AWC</h1>
-          <form action={claim}>
-            <button type="submit" className="btn">
-              Synchroniser
-            </button>
-          </form>
         </div>
 
         <div className="mb-4 grid grid-cols-3 gap-3">
@@ -76,8 +56,7 @@ export default async function KnowledgePage() {
 
         {documents.length === 0 && (
           <div className="card mb-4 border-[var(--color-warn)]/40 p-4 text-sm text-[var(--color-warn)]">
-            Knowledge base vide pour ce compte. Clique sur « Synchroniser » pour rattacher la
-            bibliothèque AWC importée depuis Drive.
+            Knowledge base vide. Importe des documents depuis Google Drive pour l&apos;alimenter.
           </div>
         )}
 
