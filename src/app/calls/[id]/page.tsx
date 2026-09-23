@@ -1,4 +1,4 @@
-import { notFound, redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import Nav from '@/components/Nav';
 import { createClient } from '@/lib/supabase/server';
 import { ACTION_LABEL, type Action } from '@/lib/awc/stages';
@@ -36,10 +36,6 @@ export default async function CallDetailPage({ params }: { params: Promise<{ id:
   async function saveDebrief(formData: FormData) {
     'use server';
     const supabase = await createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) redirect('/login');
 
     await supabase
       .from('calls')

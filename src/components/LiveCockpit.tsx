@@ -80,7 +80,6 @@ export default function LiveCockpit({ prospects }: Props) {
           );
           if (callId) {
             await supabase.from('call_messages').insert({
-              owner_id: (await supabase.auth.getUser()).data.user?.id,
               call_id: callId,
               speaker: 'PROSPECT',
               content: line,
@@ -108,19 +107,10 @@ export default function LiveCockpit({ prospects }: Props) {
     if (!prospect) return;
     setBusy(true);
     setError(null);
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) {
-      setError('Session expirée');
-      setBusy(false);
-      return;
-    }
 
     const { data, error: insertError } = await supabase
       .from('calls')
       .insert({
-        owner_id: user.id,
         prospect_id: prospect.id ?? null,
         company: prospect.company,
         script_name: prospect.script ?? null,
